@@ -32,7 +32,7 @@ class Slider(VanillaBaseControl):
         SliderDemo()
 
     **posSize** Tuple of form *(left, top, width, height)* representing the position and
-    size of the slider. The size of the slider sould match the appropriate value for
+    size of the slider. The size of the slider should match the appropriate value for
     the given *sizeStyle*.
 
     +---------------------------+
@@ -61,7 +61,7 @@ class Slider(VanillaBaseControl):
 
     **value** The initial value of the slider.
 
-    **tickMarkCount** The number of tick marcks to be displayed on the slider.
+    **tickMarkCount** The number of tick marks to be displayed on the slider.
     If *None* is given, no tick marks will be displayed.
 
     **stopOnTickMarks** Boolean representing if the slider knob should only

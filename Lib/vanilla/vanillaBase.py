@@ -64,7 +64,7 @@ class VanillaBaseObject(object):
 
     def _setFrame(self, parentFrame):
         l, t, w, h = self._posSize
-        frame  = _calcFrame(parentFrame, ((l, t), (w, h)))
+        frame = _calcFrame(parentFrame, ((l, t), (w, h)))
         frame = self._adjustPosSize(frame)
         self._nsObject.setFrame_(frame)
 
@@ -99,7 +99,7 @@ class VanillaBaseObject(object):
 
     def isVisible(self):
         """
-        Return a bool indicting if the object is visible or not.
+        Return a bool indicating if the object is visible or not.
         """
         return not self._nsObject.isHidden()
 
@@ -119,7 +119,7 @@ class VanillaBaseObject(object):
 
     def setPosSize(self, posSize):
         """
-        Set the postion and size of the object.
+        Set the position and size of the object.
 
         **posSize** A tuple of form *(left, top, width, height)*.
         """
@@ -229,7 +229,7 @@ def _calcFrame(parentFrame, posSize, absolutePositioning=False):
 def _flipFrame(parentFrame, objFrame):
     """Translate a Cocoa frame to vanilla coordinates"""
     (pL, pB), (pW, pH) = parentFrame
-    (oL, oB), (oW, oH) =  objFrame
+    (oL, oB), (oW, oH) = objFrame
     oT = pH - oB - oH
     return oL, oT, oW, oH
 
@@ -251,7 +251,7 @@ def _setAttr(cls, obj, attr, value):
         frame = view.frame()
         value._setFrame(frame)
         view.addSubview_(value._nsObject)
-    #elif isinstance(value, NSView) and not attr.startswith("_"):
+    # elif isinstance(value, NSView) and not attr.startswith("_"):
     #    assert not hasattr(obj, attr), "can't replace vanilla attribute"
     #    view = obj._getContentView()
     #    view.addSubview_(value)
@@ -261,6 +261,6 @@ def _delAttr(cls, obj, attr):
     value = getattr(obj, attr)
     if isinstance(value, VanillaBaseObject):
         value._nsObject.removeFromSuperview()
-    #elif isinstance(value, NSView):
+    # elif isinstance(value, NSView):
     #    value.removeFromSuperview()
     super(cls, obj).__delattr__(attr)

@@ -54,7 +54,7 @@ class ImageView(VanillaBaseObject):
     view. The options are:
 
     +----------------+----------------------------------------------+
-    | "porportional" | Proportionally scale the image to fit in the |
+    | "proportional" | Proportionally scale the image to fit in the |
     |                | view if it is larger than the view.          |
     +----------------+----------------------------------------------+
     | "fit"          | Distort the proportions of the image until   |

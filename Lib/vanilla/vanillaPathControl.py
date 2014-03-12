@@ -7,7 +7,7 @@ class PathControl(VanillaBaseControl):
     A path control.
 
     **posSize** Tuple of form *(left, top, width, height)* representing the position
-    and size of the control. The size of the control sould match the appropriate value
+    and size of the control. The size of the control should match the appropriate value
     for the given *sizeStyle*.
 
     +-------------------------+
@@ -20,7 +20,7 @@ class PathControl(VanillaBaseControl):
     | Mini    | H | 18        |
     +---------+---+-----------+
 
-    **url** The url to be displayed in the control. This should be a NSURL object.
+    **url** The URL to be displayed in the control. This should be a NSURL object.
 
     **editable** A boolean indicating if this control is editable or not.
 
@@ -49,7 +49,7 @@ class PathControl(VanillaBaseControl):
         self._nsObject.setFocusRingType_(NSFocusRingTypeNone)
 
 
-#class PathControlBar(VanillaBaseControl):
+# class PathControlBar(VanillaBaseControl):
 #
 #    nsPathControlClass = NSPathControl
 #    nspathStyle = NSPathStyleNavigationBar
@@ -63,7 +63,7 @@ class PathControl(VanillaBaseControl):
 #    def __init__(self, posSize, title, callback=None, sizeStyle="regular"):
 #
 #
-#class PathControlPopUp(VanillaBaseControl):
+# class PathControlPopUp(VanillaBaseControl):
 #
 #    nsPathControlClass = NSPathControl
 #    nspathStyle = NSPathStylePopUp

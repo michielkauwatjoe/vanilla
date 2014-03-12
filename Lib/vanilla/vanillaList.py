@@ -52,7 +52,7 @@ class _VanillaTableViewSubclass(VanillaTableViewSubclass):
 
 
 class VanillaArrayControllerObserver(NSObject):
-    
+
     def observeValueForKeyPath_ofObject_change_context_(self, keyPath, obj, change, context):
         if hasattr(self, "_targetMethod") and self._targetMethod is not None:
             self._targetMethod()
@@ -213,7 +213,7 @@ class List(VanillaBaseObject):
 
         ListDemo()
 
-    A mutliple column example::
+    A multiple column example::
 
         from vanilla import *
 
@@ -232,7 +232,7 @@ class List(VanillaBaseObject):
 
         ListDemo()
 
-    List objects behave like standard Python lists. For xample, given this List:::
+    List objects behave like standard Python lists. For example, given this List:::
 
         self.w.myList = List((10, 10, 200, 100), ["A", "B", "C"])
 
@@ -263,12 +263,12 @@ class List(VanillaBaseObject):
         >>> self.w.myList.get()
         ["A", "B", "C", "Z"]
 
-        # Removing the first occurance of an item in a List.
+        # Removing the first occurrence of an item in a List.
         >>> self.w.myList.remove("A")
         >>> self.w.myList.get()
         ["B", "C"]
 
-        # Getting the index for the first occurance of an item in a List.
+        # Getting the index for the first occurrence of an item in a List.
         >>> self.w.myList.index("B")
         1
 
@@ -312,7 +312,7 @@ class List(VanillaBaseObject):
     |                                | given in *title*.                                                              |
     +--------------------------------+--------------------------------------------------------------------------------+
     | *"formatter"* (optional)       | An `NSFormatter` <http://tinyurl.com/NSFormatter>`_                            |
-    |                                | for cntrolling the display and input of the                                    |
+    |                                | for controlling the display and input of the                                    |
     |                                | column's cells.                                                                |
     +--------------------------------+--------------------------------------------------------------------------------+
     | *"cell"* (optional)            | A cell type to be displayed in the column.                                     |
@@ -728,7 +728,7 @@ class List(VanillaBaseObject):
             self._editCallback(self)
 
     def _selection(self):
-        if self._selectionCallback is not None: 
+        if self._selectionCallback is not None:
             self._selectionCallback(self)
 
     def _keyDown(self, event):
@@ -782,7 +782,7 @@ class List(VanillaBaseObject):
                 fieldEditor.setString_(u"")
             # reset the clock
             self._lastInputTime = rightNow
-            # add the characters to the fied editor
+            # add the characters to the field editor
             fieldEditor.interpretKeyEvents_([event])
             # get the input string
             inputString = fieldEditor.string()
@@ -832,7 +832,7 @@ class List(VanillaBaseObject):
                         lastResortIndex = index
                         continue
                     # if existing the last resort is greater than the item
-                    # the item is a closer match to the input string 
+                    # the item is a closer match to the input string
                     if lastResort > item:
                         lastResort = item
                         lastResortIndex = index
@@ -1008,7 +1008,7 @@ class List(VanillaBaseObject):
         # objects at the requested indexes.
         sortedObjects = [(id(sortedArray[index]), sortedArray[index]) for index in indexes]
         sortedObjects = dict.fromkeys(sortedObjects)
-        # find the indexes of the ubsorted objects matching
+        # find the indexes of the unsorted objects matching
         # the sorted objects
         unsortedIndexes = []
         for index in xrange(len(unsortedArray)):

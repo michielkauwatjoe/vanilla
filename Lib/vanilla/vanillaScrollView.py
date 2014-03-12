@@ -80,7 +80,7 @@ class ScrollView(VanillaBaseObject):
 
     def setBackgroundColor(self, color):
         """
-        Set the background of the scrol view to _color_.
+        Set the background of the scroll view to _color_.
         """
         self._nsObject.setBackgroundColor_(color)
 

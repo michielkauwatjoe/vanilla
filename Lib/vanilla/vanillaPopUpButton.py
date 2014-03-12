@@ -3,9 +3,9 @@ from vanillaBase import VanillaBaseControl
 
 
 class PopUpButton(VanillaBaseControl):
-    
+
     """
-    A button which, when selected, displays a list of items for the user to choose from.::
+    A button which, when selected, displays a list of items for the user to choose from:
 
         from vanilla import *
 
@@ -24,7 +24,7 @@ class PopUpButton(VanillaBaseControl):
         PopUpButtonDemo()
 
     **posSize** Tuple of form *(left, top, width, height)* representing the position and
-    size of the pop up button. The size of the button sould match the appropriate value
+    size of the pop up button. The size of the button should match the appropriate value
     for the given *sizeStyle*.
 
     +-------------------------+

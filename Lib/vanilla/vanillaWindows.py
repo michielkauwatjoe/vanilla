@@ -80,7 +80,7 @@ class Window(NSObject):
         if textured:
             mask = mask | NSTexturedBackgroundWindowMask
         # start the window
-        ## too magical?
+        # # too magical?
         if len(posSize) == 2:
             l = t = 100
             w, h = posSize
@@ -228,7 +228,7 @@ class Window(NSObject):
         """
         Set the title in the window's title bar.
 
-        **title** shoud be a string.
+        **title** should be a string.
         """
         self._window.setTitle_(title)
 
@@ -290,7 +290,7 @@ class Window(NSObject):
             # value that is not zero. this will cause
             # an error if (and only if) a window is
             # being positioned at the top of the screen.
-            # so, asjust it.
+            # so, adjust it.
             (sL, sB), (sW, sH) = screenFrame
             screenFrame = ((sL, 0), (sW, sH + sB))
         frame = _calcFrame(screenFrame, ((l, t), (w, h)), absolutePositioning=True)
@@ -343,7 +343,7 @@ class Window(NSObject):
         +-------------------+----------------------------------------------------------------------+
         | *"move"*          | Called immediately after the window is moved.                        |
         +-------------------+----------------------------------------------------------------------+
-        | *"resize"*        | Caled immediately after the window is resized.                       |
+        | *"resize"*        | Called immediately after the window is resized.                       |
         +-------------------+----------------------------------------------------------------------+
         | *"became main"*   | Called immediately after the window has become the main window.      |
         +-------------------+----------------------------------------------------------------------+
@@ -439,19 +439,19 @@ class Window(NSObject):
 
     def windowDidResize_(self, notification):
         self._alertBindings("resize")
-    
+
     def windowDidEnterFullScreen_(self, notification):
         self._alertBindings("enter full screen")
-    
+
     def windowWillEnterFullScreen_(self, notification):
         self._alertBindings("will enter full screen")
-    
+
     def windowDidExitFullScreen_(self, notification):
         self._alertBindings("exit full screen")
-    
+
     def windowWillExitFullScreen_(self, notification):
         self._alertBindings("will exit full screen")
-    
+
     def windowShouldClose_(self, notification):
         shouldClose = self._alertBindings("should close")
         if shouldClose is None:

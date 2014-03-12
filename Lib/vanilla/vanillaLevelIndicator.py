@@ -102,10 +102,10 @@ class LevelIndicator(VanillaBaseControl):
     | "below" |
     +---------+
 
-    **minorTickMarkCount** The number of minor tick marcks to be displayed
+    **minorTickMarkCount** The number of minor tick marks to be displayed
     on the level indicator. If *None* is given, no minor tick marks will be displayed.
 
-    **majorTickMarkCount** The number of major tick marcks to be displayed on the level
+    **majorTickMarkCount** The number of major tick marks to be displayed on the level
     indicator. If *None* is given, no major tick marks will be displayed.
 
     **callback** The method to be called when the level indicator has been edited.

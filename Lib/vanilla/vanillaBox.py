@@ -25,12 +25,12 @@ class Box(VanillaBaseObject):
 
     **posSize** Tuple of form *(left, top, width, height)* representing the position and size of the box.
 
-    **title** The title to be displayed dabove the box. Pass *None* if no title is desired.
+    **title** The title to be displayed above the box. Pass *None* if no title is desired.
     """
 
     allFrameAdjustments = {
         # Box does not have sizeStyle, but the
-        # adjustment is differeent based on the
+        # adjustment is different based on the
         # presence of a title.
         "Box-Titled": (-3, -4, 6, 4),
         "Box-None": (-3, -4, 6, 6)
@@ -100,7 +100,7 @@ class _Line(Box):
 
 
 class HorizontalLine(_Line):
-    
+
     """
     A horizontal line.::
 

@@ -29,7 +29,7 @@ class ColorWell(VanillaBaseObject):
 
     **posSize** Tuple of form *(left, top, width, height)* representing the position and size of the color well.
 
-    **callback** The method to be caled when the user selects a new color.
+    **callback** The method to be called when the user selects a new color.
 
     **color** A *NSColor* object. If *None* is given, the color shown will be white.
     """

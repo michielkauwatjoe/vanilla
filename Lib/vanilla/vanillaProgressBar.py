@@ -28,7 +28,7 @@ class ProgressBar(VanillaBaseObject):
 
     **posSize** Tuple of form *(left, top, width, height)* representing
     the position and size of the progress bar. The height of the progress
-    bar sould match the appropriate value for the given *sizeStyle*.
+    bar should match the appropriate value for the given *sizeStyle*.
 
     +-------------------------+
     | **Standard Dimensions** |
@@ -46,7 +46,7 @@ class ProgressBar(VanillaBaseObject):
     Determinate progress bars show how much of the task has been completed.
     Indeterminate progress bars simply show that the application is busy.
 
-    **sizeStyle** A string representing the desired size style of the pregress bar.
+    **sizeStyle** A string representing the desired size style of the progress bar.
     The options are:
 
     +-----------+

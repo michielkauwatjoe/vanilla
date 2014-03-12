@@ -31,7 +31,7 @@ class RadioGroup(VanillaBaseControl):
     **isVertical** Boolean representing if the radio group is
     vertical or horizontal.
 
-    **callback** The method to be caled when a radio button is selected.
+    **callback** The method to be called when a radio button is selected.
 
     **sizeStyle** A string representing the desired size style of the radio group.
     The options are:
@@ -107,7 +107,7 @@ class RadioGroup(VanillaBaseControl):
 
     def set(self, index):
         """
-        Set the index of the seleced radio button.
+        Set the index of the selected radio button.
         """
         if self._isVertical:
             row = index

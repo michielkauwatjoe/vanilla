@@ -1,6 +1,6 @@
 """
 This is adapted from the PyObjC PythonBrowser demo.
-I beleive that demo was written by Just van Rossum.
+I believe that demo was written by Just van Rossum.
 """
 
 import AppKit
@@ -12,7 +12,7 @@ from vanilla.vanillaBase import VanillaBaseObject
 from vanilla.nsSubclasses import getNSSubclass
 
 import warnings
-warnings.filterwarnings("ignore",category=UserWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
 
 TYPE_COLUMN_MAP = {
     "list" : "List",
@@ -63,7 +63,7 @@ class ObjectBrowser(VanillaBaseObject):
         ]
         for key, title in columns:
             column = AppKit.NSTableColumn.alloc().initWithIdentifier_(key)
-            column.setResizingMask_(AppKit.NSTableColumnAutoresizingMask | AppKit.NSTableColumnUserResizingMask )
+            column.setResizingMask_(AppKit.NSTableColumnAutoresizingMask | AppKit.NSTableColumnUserResizingMask)
             column.headerCell().setTitle_(title)
             dataCell = column.dataCell()
             dataCell.setDrawsBackground_(False)
@@ -127,9 +127,9 @@ class PythonBrowserModel(AppKit.NSObject):
 
     def outlineView_shouldEditTableColumn_item_(self, view, col, item):
         return False
-    
+
     def outlineView_toolTipForCell_rect_tableColumn_item_mouseLocation_(self, view, cell, rect, col, item, location):
-        ## addig a tooltip, use the __doc__ from the object
+        # # adding a tooltip, use the __doc__ from the object
         return item.getDoc(), rect
 
 # objects of these types are not eligable for expansion in the outline view
@@ -137,20 +137,20 @@ SIMPLE_TYPES = (str, unicode, int, long, float, complex)
 
 def getChilderen(root):
     childeren = []
-    
+
     for name, obj in inspect.getmembers(root):
-        ## ignore private methods and attributes
+        # # ignore private methods and attributes
         if name.startswith("_"):
             continue
-        ## ignore imported modules
-        #elif inspect.ismodule(obj):
+        # # ignore imported modules
+        # elif inspect.ismodule(obj):
         #    continue
-        ## ignore methods and attributed usind in pyobjc
+        # # ignore methods and attributed usind in pyobjc
         elif name.startswith("pyobjc_"):
             continue
-        ## ignore methods and attributed usind in pyobjc
+        # # ignore methods and attributed usind in pyobjc
         elif type(obj).__name__ in ["native_selector"]:
-            continue            
+            continue
         childeren.append(name)
 
     return childeren
@@ -172,7 +172,7 @@ class PythonItem(AppKit.NSObject):
     """Wrapper class for items to be displayed in the outline view."""
 
     # We keep references to all child items (once created). This is
-    # neccesary because NSOutlineView holds on to PythonItem instances
+    # necessary because NSOutlineView holds on to PythonItem instances
     # without retaining them. If we don"t make sure they don"t get
     # garbage collected, the app will crash. For the same reason this
     # class _must_ derive from NSObject, since otherwise autoreleased
@@ -194,14 +194,14 @@ class PythonItem(AppKit.NSObject):
             self.value = ""
         else:
             self.value = obj
-        
-        ## in pyOjbc a python_selector should have an attr callable with is actually the method or function
+
+        # # in pyOjbc a python_selector should have an attr callable with is actually the method or function
         if self.type == "python_selector" and hasattr(obj, "callable"):
             obj = obj.callable
-        
+
         self.object = obj
         self.children = []
-        
+
         self.getters = dict()
         self.setters = dict()
         if isinstance(obj, dict):
@@ -229,7 +229,7 @@ class PythonItem(AppKit.NSObject):
                 self._setSetters(self.children, setitem)
             except:
                 pass
-            
+
             try:
                 d = dict(obj)
                 self.children = d.keys()
@@ -241,24 +241,24 @@ class PythonItem(AppKit.NSObject):
             children = getChilderen(obj)
             self._setGetters(children, getattr)
             self._setSetters(children, setattr)
-            self.children += children    
-            
+            self.children += children
+
             if inspect.isclass(obj) and hasattr(obj, "__init__"):
                 self.arguments = getArguments(getattr(obj, "__init__"))
-        
-        if ignoreAppKit:                
+
+        if ignoreAppKit:
             self.children = [child for child in self.children if not (isinstance(child, (str, unicode)) and hasattr(AppKit, child))]
 
         self._childRefs = {}
-    
+
     def _setSetters(self, names, callback):
         for name in names:
             self.setters[name] = callback
-    
+
     def _setGetters(self, names, callback):
         for name in names:
             self.getters[name] = callback
-            
+
     def isExpandable(self):
         return bool(self.children)
 
@@ -270,17 +270,17 @@ class PythonItem(AppKit.NSObject):
         getter = self.getters.get(name)
         setter = self.setters.get(name)
         obj = getter(self.object, name)
-        
+
         childObj = self.__class__(name, obj, self.object, setter)
         self._childRefs[child] = childObj
         return childObj
-    
+
     def getDoc(self):
         doc = inspect.getdoc(self.object)
         if doc:
             return doc
         return None
-    
+
     def __len__(self):
         return len(self.children)
 
@@ -288,20 +288,20 @@ class PythonItem(AppKit.NSObject):
 if __name__ == "__main__":
     import vanilla
     testObject = vanilla
-    
+
     class TestWindow():
         def __init__(self):
-            self.w = vanilla.Window((400, 400), "inspect object browser %s" %testObject, minSize=(100, 100))
+            self.w = vanilla.Window((400, 400), "inspect object browser %s" % testObject, minSize=(100, 100))
             self.w.b = ObjectBrowser((0, 0, -0, -0), testObject)
             self.w.open()
-            
-    
+
+
     from vanilla.test.testTools import executeVanillaTest
     executeVanillaTest(TestWindow)
-    
-    
-    
-    
-    
+
+
+
+
+
 
 

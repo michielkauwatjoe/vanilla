@@ -47,7 +47,7 @@ class Drawer(VanillaBaseObject):
 
     **maxSize** Tuple of form *(width, height)* representing the maximum size of the drawer.
 
-    **preferredEdge** The preferred edge of the window that the drawe should be attached to. If the
+    **preferredEdge** The preferred edge of the window that the drawer should be attached to. If the
     drawer cannot be opened on the preferred edge, it will be opened on the opposite edge. The options are:
 
     +----------+

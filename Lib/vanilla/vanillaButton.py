@@ -45,7 +45,7 @@ class Button(VanillaBaseControl):
         ButtonDemo()
 
     **posSize** Tuple of form *(left, top, width, height)* representing the position
-    and size of the button. The size of the button sould match the appropriate value
+    and size of the button. The size of the button should match the appropriate value
     for the given *sizeStyle*.
 
     +-------------------------+
@@ -270,7 +270,7 @@ class ImageButton(SquareButton):
     def __init__(self, posSize,
                 imagePath=None, imageNamed=None, imageObject=None,
                 title=None, bordered=True, imagePosition="top", callback=None, sizeStyle="regular"):
-        super(ImageButton,  self).__init__(posSize, title=title, callback=callback, sizeStyle=sizeStyle)
+        super(ImageButton, self).__init__(posSize, title=title, callback=callback, sizeStyle=sizeStyle)
         image = None
         if imagePath is not None:
             image = NSImage.alloc().initWithContentsOfFile_(imagePath)
@@ -284,7 +284,7 @@ class ImageButton(SquareButton):
         if title is None:
             position = NSImageOnly
         else:
-            position= _imagePositionMap[imagePosition]
+            position = _imagePositionMap[imagePosition]
             if imagePosition == "left":
                 self._nsObject.setAlignment_(NSRightTextAlignment)
             elif imagePosition == "right":
@@ -337,7 +337,7 @@ class HelpButton(Button):
         HelpButtonDemo()
 
     **posSize** Tuple of form *(left, top, width, height)* representing the position and
-    size of the button. The size of the button sould match the standard dimensions.
+    size of the button. The size of the button should match the standard dimensions.
 
     +-------------------------+
     | **Standard Dimensions** |
