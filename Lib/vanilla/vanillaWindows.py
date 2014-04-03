@@ -52,6 +52,15 @@ class Window(NSObject):
     **initiallyVisible** Boolean value representing if the window will be initially visible.
     Default is *True*. If *False*, you can show the window later by calling `window.show()`.
 
+    **fullScreenMode** An indication of the full screen mode. These are the options:
+    +---------------+---------------------------------------------------------------+
+    | *None*        | The window does not allow full screen.                        |
+    +---------------+---------------------------------------------------------------+
+    | *"primary"*   | Corresponds to NSWindowCollectionBehaviorFullScreenPrimary.   |
+    +---------------+---------------------------------------------------------------+
+    | *"auxiliary"* | Corresponds to NSWindowCollectionBehaviorFullScreenAuxiliary. |
+    +---------------+---------------------------------------------------------------+
+
     **screen** A `NSScreen <http://tinyurl.com/NSScreen>`_ object indicating the screen that
     the window should be drawn to. When None the window will be drawn to the main screen.
     """
@@ -69,7 +78,8 @@ class Window(NSObject):
     nsWindowLevel = NSNormalWindowLevel
 
     def __init__(self, posSize, title="", minSize=None, maxSize=None, textured=False,
-                autosaveName=None, closable=True, miniaturizable=True, initiallyVisible=True, screen=None):
+                autosaveName=None, closable=True, miniaturizable=True, initiallyVisible=True,
+                fullScreenMode=None, screen=None):
         mask = self.nsWindowStyleMask
         if closable:
             mask = mask | NSClosableWindowMask
@@ -99,6 +109,28 @@ class Window(NSObject):
             self._window.setFrameAutosaveName_(autosaveName)
         if cascade:
             self._cascade()
+        # set the full screen mode.
+        # this is only available 10.7+, so see if it is possible
+        # before going to far
+        try:
+            self._window.setCollectionBehavior_
+            # okay, we're >= 10.7
+            if fullScreenMode is None:
+                pass
+            elif fullScreenMode == "primary":
+                try:
+                    NSWindowCollectionBehaviorFullScreenPrimary
+                except NameError:
+                    NSWindowCollectionBehaviorFullScreenPrimary = 1 << 7
+                self._window.setCollectionBehavior_(NSWindowCollectionBehaviorFullScreenPrimary)
+            elif fullScreenMode == "auxiliary":
+                try:
+                    NSWindowCollectionBehaviorFullScreenAuxiliary
+                except NameError:
+                    NSWindowCollectionBehaviorFullScreenAuxiliary = 1 << 8
+                self._window.setCollectionBehavior_(NSWindowCollectionBehaviorFullScreenAuxiliary)
+        except AttributeError:
+            pass
         #
         if minSize is not None:
             self._window.setMinSize_(minSize)
@@ -465,7 +497,7 @@ class Window(NSObject):
     # credit where credit is due: much of this was learned
     # from the PyObjC demo: WSTConnectionWindowControllerClass
 
-    def addToolbar(self, toolbarIdentifier, toolbarItems, addStandardItems=True):
+    def addToolbar(self, toolbarIdentifier, toolbarItems, addStandardItems=True, displayMode="default", sizeStyle="default"):
         """
         Add a toolbar to the window.
 
@@ -521,6 +553,28 @@ class Window(NSObject):
         |                                           | for more information.                                          |
         +-------------------------------------------+----------------------------------------------------------------+
 
+        **displayMode** A string representing the desired display mode for the toolbar.
+
+        +-------------+
+        | "default"   |
+        +-------------+
+        | "iconLabel" |
+        +-------------+
+        | "icon"      |
+        +-------------+
+        | "label"     |
+        +-------------+
+
+        **sizeStyle** A string representing the desired size for the toolbar
+
+        +-----------+
+        | "default" |
+        +-----------+
+        | "regular" |
+        +-----------+
+        | "small"   |
+        +-----------+
+
         Returns a dictionary containing the created toolbar items, mapped by itemIdentifier.
         """
         STANDARD_TOOLBAR_ITEMS = [
@@ -550,10 +604,68 @@ class Window(NSObject):
         toolbar.setDelegate_(self)
         toolbar.setAllowsUserCustomization_(True)
         toolbar.setAutosavesConfiguration_(True)
+
+        displayModeMap = dict(
+                default=NSToolbarDisplayModeDefault,
+                iconLabel=NSToolbarDisplayModeIconAndLabel,
+                icon=NSToolbarDisplayModeIconOnly,
+                label=NSToolbarDisplayModeLabelOnly,
+                )
+        toolbar.setDisplayMode_(displayModeMap[displayMode])
+
+        sizeStyleMap = dict(
+                default=NSToolbarSizeModeDefault,
+                regular=NSToolbarSizeModeRegular,
+                small=NSToolbarSizeModeSmall)
+        toolbar.setSizeMode_(sizeStyleMap[sizeStyle])
         self._window.setToolbar_(toolbar)
         # Return the dict of toolbar items, so our caller can choose to
         # keep references to them if needed.
         return self._toolbarItems
+
+    def getToolbarItems(self):
+        if hasattr(self, "_toolbarItems"):
+            return self._toolbarItems
+        return {}
+
+    def addToolbarItem(self, itemData, index=None):
+        """
+        Add a toolbar item to the windows toolbar.
+
+        **itemData** item description with the same format as a toolbarItem description in `addToolbar`
+
+        **index** An interger, specifying the place to insert the toolbar itemIdentifier.
+        """
+        if not hasattr(self, "_toolbarItems"):
+            raise VanillaError("window has not toolbar")
+        itemIdentifier = itemData.get("itemIdentifier")
+        self._createToolbarItem(itemData)
+        if itemData.get("visibleByDefault", True):
+            if index is not None:
+                self._toolbarDefaultItemIdentifiers.remove(itemIdentifier)
+                self._toolbarDefaultItemIdentifiers.insert(index, itemIdentifier)
+            index = self._toolbarDefaultItemIdentifiers.index(itemIdentifier)
+            self._window.toolbar().insertItemWithItemIdentifier_atIndex_(itemIdentifier, index)
+
+    def removeToolbarItem(self, itemIdentifier):
+        """
+        Remove a toolbar item by his identifier.
+
+        **itemIdentifier** A unique string identifier for the removed item.
+        """
+        if not hasattr(self, "_toolbarItems"):
+            raise VanillaError("window has not toolbar")
+        if itemIdentifier not in self._toolbarItems:
+            raise VanillaError("itemIdentifier %r not in toolbar" % itemIdentifier)
+        item = self._toolbarItems[itemIdentifier]
+        toolbarItems = self._window.toolbar().items()
+        if item in toolbarItems:
+            ## it can happen a user changed the toolbar manually
+            index = toolbarItems.indexOfObject_(item)
+            self._window.toolbar().removeItemAtIndex_(index)
+        self._toolbarAllowedItemIdentifiers.remove(itemIdentifier)
+        self._toolbarDefaultItemIdentifiers.remove(itemIdentifier)
+        del self._toolbarItems[itemIdentifier]
 
     def _createToolbarItem(self, itemData):
         itemIdentifier = itemData.get("itemIdentifier")

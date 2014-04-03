@@ -18,6 +18,7 @@ from vanillaScrollView import ScrollView
 from vanillaSearchBox import SearchBox
 from vanillaSegmentedButton import SegmentedButton
 from vanillaSlider import Slider
+from vanillaSplitView2 import SplitView2
 from vanillaTabs import Tabs
 from vanillaTextBox import TextBox
 from vanillaTextEditor import TextEditor
@@ -46,6 +47,7 @@ __all__ = [
     "SegmentedButton",
     "Slider",
     "SplitView",
+    "SplitView2",
     "Tabs",
     "TextBox",
     "TextEditor",
@@ -68,6 +70,13 @@ try:
     __all__.append("GradientButton")
     from vanillaPathControl import PathControl
     __all__.append("PathControl")
+except (ImportError, NameError):
+    pass
+
+# OS 10.7 objects
+try:
+    from vanillaPopover import Popover
+    __all__.append("Popover")
 except (ImportError, NameError):
     pass
 
